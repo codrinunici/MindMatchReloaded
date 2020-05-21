@@ -10,6 +10,10 @@ import { DivcontrolComponent } from './divcontrol/divcontrol.component';
 import { HomeComponent } from './home/home.component';
 import {RouterModule} from '@angular/router';
 import {routes} from './app-routing.module';
+import {fakeBackendProvider, JwtInterceptor} from './_helpers/exporter';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {ErrorInterceptor} from './_helpers/error.interceptor'; // ?
 
 @NgModule({
   declarations: [
@@ -23,8 +27,16 @@ import {routes} from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule
   ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider
+  ]
+  ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }
