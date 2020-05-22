@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error: string;
-
+  success: string;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    if (this.route.snapshot.queryParams.registered) {
+      this.success = 'Registration successful';
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -47,6 +50,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    // reset alerts on submit
+    this.error = null;
+    this.success = null;
 
     this.loading = true;
     this.authenticationService.login(this.f.username.value, this.f.password.value)

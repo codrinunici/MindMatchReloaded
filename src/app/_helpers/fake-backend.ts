@@ -3,7 +3,7 @@ import {HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP
 import {Observable, of, throwError} from 'rxjs';
 import {delay, mergeMap, materialize, dematerialize} from 'rxjs/operators';
 
-const users = [{id: 1, firstName: 'Jason', lastName: 'Watmore', username: 'test', password: 'test'}];
+const users = JSON.parse(localStorage.getItem('users')) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -22,6 +22,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       switch (true) {
         case url.endsWith('/users/authenticate') && method === 'POST':
           return authenticate();
+          break;
+        case url.endsWith('users/register') && method === 'POST':
+          return register();
+          break;
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -30,18 +34,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     // route functions
 
+    function register() {
+      const newUser = body;
+      if (users.find(x => x.username === newUser.username)) {
+        return error('Username ' + newUser.username + ' already taken');
+      } else {
+        newUser.id = users.length ? Math.max(...users.id) + 1 : 1;
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }
+
     function authenticate() {
       const {username, password} = body;
       const user = users.find(x => x.username === username && x.password === password);
       if (!user) {
         return error('Username or password is incorrect');
       }
+      console.log(JSON.stringify(user));
       return ok({
         id: user.id,
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
-        token: 'fake-jwt-token'
+        token: 'fake-jwt-token',
+        responses: user.finalResponses
       });
     }
 
