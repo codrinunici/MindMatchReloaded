@@ -1,15 +1,16 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {UserService} from '../_services/user.service';
+import {PassDataService} from '../_services/pass-data.service';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html'
+  templateUrl: './register-questions.component.html'
 })
 
-export class RegisterComponent {
+export class RegisterQuestionsComponent implements OnInit {
   private tempResponseBuilder = [];
   private finalResponse: string[] = [];
   showTheQuestionnaire = false;
@@ -37,7 +38,12 @@ export class RegisterComponent {
   public submitted = false;
   public loading = false;
   public error = false;
-  constructor(private fb: FormBuilder, private router: Router, private userService: UserService) {
+  public sentUsername: string;
+  public sentPass: string;
+
+
+  constructor(private fb: FormBuilder, private router: Router,
+              private userService: UserService, private credentialSender: PassDataService) {
     let i: number;
     for (i = 0; i < this.personalQuestions.length; ++i) {
       this.personalQuestionnaireGroup[i] = this.fb.group({
@@ -46,6 +52,12 @@ export class RegisterComponent {
       });
     }
   }
+
+  ngOnInit(): void {
+    this.credentialSender.currentUsername.subscribe(user => this.sentUsername = user);
+    this.credentialSender.currentPass.subscribe(pass => this.sentPass = pass);
+  }
+
   mapPossibleAnswersPersQues() {
     const answerArr = this.possibleAnswersPersQues.map(answer => {
       return this.fb.control(0);
@@ -66,7 +78,8 @@ export class RegisterComponent {
             this.oneAnswerPerQuestion.push(this.personalQuestions[index]);
             this.finalResponse.push(this.possibleAnswersPersQues[i]);
           } else {
-            // gotta uncheck old answer. if I do that, it's gonna work.
+            console.log(index + ' ' + i);
+            this.personalQuestionnaireGroup[index].value['answers'][i] = 0;
             this.finalResponse[index] = this.possibleAnswersPersQues[i];
           }
         }
@@ -76,21 +89,20 @@ export class RegisterComponent {
   }
 
 
-  // onSubmit() {
-  //   this.submitted = true;
-  //
-  //   // stop here if form is invalid
-  //   this.loading = true;
-  //   this.userService.register(this.finalResponse)
-  //     .pipe(first())
-  //     .subscribe(
-  //       data => {
-  //         this.router.navigate(['/login'], {queryParams: {registered: true}});
-  //       },
-  //       error => {
-  //         this.error = error;
-  //         this.loading = false;
-  //       });
-  // }
+  onSubmit() {
+    this.submitted = true;
+    this.loading = true;
+    this.userService.register({username: this.sentUsername, password: this.sentPass, response: this.finalResponse})
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate(['/login'], {queryParams: {registered: true}});
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
+  }
+
 
 }

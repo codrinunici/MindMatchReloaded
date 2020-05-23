@@ -5,8 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MatcherComponent } from './matcher/matcher.component';
 import { ProfileComponent } from './profile/profile.component';
-import { RegisterComponent} from './register/register.component';
-import { DivcontrolComponent } from './divcontrol/divcontrol.component';
+import { RegisterQuestionsComponent} from './register/register-questions.component';
 import { HomeComponent } from './home/home.component';
 import {RouterModule} from '@angular/router';
 import {routes} from './app-routing.module';
@@ -16,6 +15,8 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ErrorInterceptor} from './_helpers/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // ?
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { RegisterUserAndPassComponent } from './registeruserandpass/register-user-and-pass.component';
+import {PassDataService} from './_services/pass-data.service';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     LoginComponent,
     MatcherComponent,
     ProfileComponent,
-    RegisterComponent,
-    DivcontrolComponent,
-    HomeComponent
+    RegisterQuestionsComponent,
+    HomeComponent,
+    RegisterUserAndPassComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider
+    fakeBackendProvider,
+    PassDataService
   ]
   ,
   bootstrap: [AppComponent]

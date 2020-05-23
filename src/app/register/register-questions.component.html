@@ -10,7 +10,7 @@
 </div>
 <div *ngIf="showTheQuestionnaire">
   <div  *ngFor="let nextGroup of personalQuestionnaireGroup; let i = index;">
-    <form  [formGroup]="nextGroup">
+    <form  [formGroup]="nextGroup" >
       {{nextGroup.get('question').value}}
       <div formArrayName="answers"
            *ngFor="let answer of getAnswersArrayAtIndex(i).controls;let j = index;">
@@ -25,11 +25,8 @@
           {{possibleAnswersPersQues[j]}}
         </mat-checkbox>
       </div>
-
-
     </form>
-
-
   </div>
-  <button class="mat-fab">Submit</button>
+  <button (click) = "onSubmit()" class="mat-fab">Submit</button>
+
 </div>
