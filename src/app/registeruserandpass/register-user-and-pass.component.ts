@@ -45,10 +45,25 @@ export class RegisterUserAndPassComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  storeUserAndPass() {
+
+  // storeUserAndPass() {
+  //
+  //   this.usernameToBeSent = this.registerForm.value['username'];
+  //   this.passwordToBeSent = this.registerForm.value['password'];
+  //   this.credentialSender.changeUsername(this.usernameToBeSent);
+  //   this.credentialSender.changePass(this.passwordToBeSent);
+  // }
+
+  onSubmit() {
     this.usernameToBeSent = this.registerForm.value['username'];
     this.passwordToBeSent = this.registerForm.value['password'];
     this.credentialSender.changeUsername(this.usernameToBeSent);
     this.credentialSender.changePass(this.passwordToBeSent);
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    } else {
+      this.router.navigate(['/register-questions']);
+    }
   }
 }

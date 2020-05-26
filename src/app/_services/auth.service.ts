@@ -18,7 +18,6 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-
   login(username, password) {
     const hostUrl = JSON.stringify(this.config);
     return this.http.post<any>(`${hostUrl}/users/authenticate`, { username, password })
