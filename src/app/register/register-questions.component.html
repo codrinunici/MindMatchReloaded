@@ -4,13 +4,13 @@
 <h3>Before you move on to finding your MindMatch, we need to get acquainted</h3>
 <div *ngIf="!showTheQuestionnaire">
   <button
-    (click)="showTheQuestionnaire=!showTheQuestionnaire;"
+    (click)="showTheQuestionnaire=!showTheQuestionnaire; buildForm()"
     class="btn btn-dark">Let's get this show on the road!
   </button>
 </div>
 <div *ngIf="showTheQuestionnaire">
   <div  *ngFor="let nextGroup of personalQuestionnaireGroup; let i = index;">
-    <form  [formGroup]="nextGroup" >
+    <form *ngIf="nextGroup" [formGroup]="nextGroup" >
       {{nextGroup.get('question').value}}
       <div formArrayName="answers"
            *ngFor="let answer of getAnswersArrayAtIndex(i).controls;let j = index;">
@@ -22,7 +22,7 @@
                       aria-labelledby="answer{{j}}"
                       (change)="getSelectedAnswers(i)"
                       >
-          {{possibleAnswersPersQues[j]}}
+          {{structuredAnswers[i][j]}}
         </mat-checkbox>
       </div>
     </form>

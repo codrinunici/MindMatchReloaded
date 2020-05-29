@@ -7,7 +7,7 @@ import {map} from 'rxjs/operators';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  private config: { apiUrl: 'http://localhost:4000' };
+  private config: { apiUrl: 'http://localhost:4200' };
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));

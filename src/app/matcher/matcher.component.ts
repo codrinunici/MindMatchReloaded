@@ -12,4 +12,4 @@ export class MatcherComponent implements OnInit {
   ngOnInit(): void {
   }
 
-}
+  }

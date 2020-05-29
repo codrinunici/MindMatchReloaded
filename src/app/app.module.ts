@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MatcherComponent } from './matcher/matcher.component';
@@ -17,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RegisterUserAndPassComponent } from './registeruserandpass/register-user-and-pass.component';
 import {PassDataService} from './_services/pass-data.service';
+import {UserService} from './_services/user.service';
 
 @NgModule({
   declarations: [

@@ -10,7 +10,7 @@ import {PassDataService} from '../_services/pass-data.service';
   templateUrl: './register-questions.component.html'
 })
 
-export class RegisterQuestionsComponent implements OnInit {
+export class RegisterQuestionsComponent {
   private tempResponseBuilder = [];
   private finalResponse: string[] = [];
   showTheQuestionnaire = false;
@@ -34,32 +34,43 @@ export class RegisterQuestionsComponent implements OnInit {
   ];
   possibleAnswersPersQues = ['A', 'B', 'C', 'D'];
   public personalQuestionnaireGroup: FormGroup[] = Array(this.personalQuestions.length);
-  private oneAnswerPerQuestion: string[] = Array();
+  private oneAnswerPerQuestion= Array();
   public submitted = false;
   public loading = false;
   public error = false;
-  public sentUsername: string;
-  public sentPass: string;
-
+  public answers = '';
+  public structuredAnswers = [];
+  public questionnaire: any = [{}];
 
   constructor(private fb: FormBuilder, private router: Router,
-              private userService: UserService, private credentialSender: PassDataService) {
+              private userService: UserService) {
+    this.userService.getQandA().then(res => this.setQnA(res));
+  }
+
+  setQnA(res) {
+    this.questionnaire = res;
+  }
+
+  buildForm() {
     let i: number;
-    for (i = 0; i < this.personalQuestions.length; ++i) {
+    for (i = 0; i < this.questionnaire.length; ++i) {
       this.personalQuestionnaireGroup[i] = this.fb.group({
-        question: this.personalQuestions[i],
-        answers: this.mapPossibleAnswersPersQues()
+        question: this.questionnaire[i]['question'],
+        answers: this.mapPossibleAnswersPersQues(this.questionnaire[i])
       });
     }
   }
 
-  ngOnInit(): void {
-    this.credentialSender.currentUsername.subscribe(user => this.sentUsername = user);
-    this.credentialSender.currentPass.subscribe(pass => this.sentPass = pass);
-  }
-
-  mapPossibleAnswersPersQues() {
-    const answerArr = this.possibleAnswersPersQues.map(answer => {
+  mapPossibleAnswersPersQues(answers: {}) {
+    const thisQuestionsAnswers = [''];
+    for (const key in answers) {
+      if (key.startsWith('asnwer')) {
+        thisQuestionsAnswers.push(answers[key]);
+      }
+    }
+    this.structuredAnswers.push(thisQuestionsAnswers);
+    thisQuestionsAnswers.shift();
+    const answerArr = thisQuestionsAnswers.map(answer => {
       return this.fb.control(0);
     });
     return this.fb.array(answerArr);
@@ -78,7 +89,6 @@ export class RegisterQuestionsComponent implements OnInit {
             this.oneAnswerPerQuestion.push(this.personalQuestions[index]);
             this.finalResponse.push(this.possibleAnswersPersQues[i]);
           } else {
-            console.log(index + ' ' + i);
             this.personalQuestionnaireGroup[index].value['answers'][i] = 0;
             this.finalResponse[index] = this.possibleAnswersPersQues[i];
           }
@@ -88,11 +98,11 @@ export class RegisterQuestionsComponent implements OnInit {
     console.log(this.finalResponse);
   }
 
-
   onSubmit() {
     this.submitted = true;
     this.loading = true;
-    this.userService.register({username: this.sentUsername, password: this.sentPass, response: this.finalResponse})
+    console.log(this.answers);
+    this.userService.registerAnswers({userid: 1, cnp: this.answers})
       .pipe(first())
       .subscribe(
         data => {
@@ -103,6 +113,4 @@ export class RegisterQuestionsComponent implements OnInit {
           this.loading = false;
         });
   }
-
-
 }
