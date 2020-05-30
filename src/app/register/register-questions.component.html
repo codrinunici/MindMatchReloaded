@@ -8,6 +8,7 @@
     class="btn btn-dark">Let's get this show on the road!
   </button>
 </div>
+<div *ngIf="invalidForm" class="alert alert-danger">All questions need an answer!</div>
 <div *ngIf="showTheQuestionnaire">
   <div  *ngFor="let nextGroup of personalQuestionnaireGroup; let i = index;">
     <form *ngIf="nextGroup" [formGroup]="nextGroup" >
@@ -25,8 +26,8 @@
           {{structuredAnswers[i][j]}}
         </mat-checkbox>
       </div>
+
     </form>
   </div>
-  <button (click) = "onSubmit()" class="mat-fab">Submit</button>
-
+  <button (click) = "onSubmit()" class="btn btn-primary">Submit</button>
 </div>

@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {UserService} from '../_services/user.service';
@@ -14,33 +14,17 @@ export class RegisterQuestionsComponent {
   private tempResponseBuilder = [];
   private finalResponse: string[] = [];
   showTheQuestionnaire = false;
-  personalQuestions = [
-    'question1',
-    'question2',
-    'question3',
-    'question4',
-    'question4',
-    'question5'
-  ];
-
-  wouldYouRatherQuestions = [
-    'wyr1',
-    'wyr2',
-    'wyr3',
-    'wyr4',
-    'wyr5',
-    'wyr6',
-    'wyr7',
-  ];
-  possibleAnswersPersQues = ['A', 'B', 'C', 'D'];
-  public personalQuestionnaireGroup: FormGroup[] = Array(this.personalQuestions.length);
-  private oneAnswerPerQuestion = Array();
+  public personalQuestionnaireGroup: FormGroup[] = Array();
   public submitted = false;
   public loading = false;
   public error = false;
   public answers = '';
   public structuredAnswers = [];
+  public structuredQuestions = [];
   public questionnaire: any = [{}];
+  private possibleAnswers = ['A', 'B', 'C'];
+  private oneAnswerPerQuestion: string[] = [];
+  private invalidForm = false;
 
   constructor(private fb: FormBuilder, private router: Router,
               private userService: UserService) {
@@ -68,6 +52,8 @@ export class RegisterQuestionsComponent {
         thisQuestionsAnswers.push(answers[key]);
       }
     }
+    this.structuredQuestions.push(answers['question']);
+    console.log(this.structuredQuestions);
     this.structuredAnswers.push(thisQuestionsAnswers);
     thisQuestionsAnswers.shift();
     const answerArr = thisQuestionsAnswers.map(answer => {
@@ -80,29 +66,32 @@ export class RegisterQuestionsComponent {
     return this.personalQuestionnaireGroup[index].get('answers') as FormArray;
   }
 
+
   getSelectedAnswers(index: number) {
     this.getAnswersArrayAtIndex(index).controls.forEach((control, i) => {
-        const questionAnsweredAlready = this.oneAnswerPerQuestion.indexOf(this.personalQuestions[index]);
+        const questionAnsweredAlready = this.oneAnswerPerQuestion.indexOf(this.structuredQuestions[index]);
         this.tempResponseBuilder.push(i);
         if (control.value) {
           if (questionAnsweredAlready === -1) {
-            this.oneAnswerPerQuestion.push(this.personalQuestions[index]);
-            this.finalResponse.push(this.possibleAnswersPersQues[i]);
+            this.oneAnswerPerQuestion.push(this.structuredQuestions[index]);
+            this.finalResponse.push(this.possibleAnswers[i]);
           } else {
             this.personalQuestionnaireGroup[index].value['answers'][i] = 0;
-            this.finalResponse[index] = this.possibleAnswersPersQues[i];
+            this.finalResponse[index] = this.possibleAnswers[i];
           }
         }
       }
     );
-    console.log(this.finalResponse);
   }
 
   onSubmit() {
     this.submitted = true;
     this.loading = true;
     this.finalResponse.map(singleAnswer => this.answers += singleAnswer);
-    console.log(this.answers);
+    if (this.finalResponse.length !== this.questionnaire.length) {
+      this.invalidForm = true;
+      return;
+    }
     this.userService.registerAnswers({userid: 1, cnp: this.answers}) // user id will come from backend
       .pipe(first())
       .subscribe(
