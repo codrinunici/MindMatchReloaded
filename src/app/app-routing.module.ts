@@ -4,12 +4,14 @@ import {HomeComponent} from './home/home.component';
 import {AuthGuard} from './_helpers/exporter';
 import {RegisterUserAndPassComponent} from './registeruserandpass/register-user-and-pass.component';
 import {RegisterQuestionsComponent} from './register/register-questions.component';
+import {MatcherComponent} from './matcher/matcher.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterUserAndPassComponent},
   {path: 'register-questions', component: RegisterQuestionsComponent},
+  {path: 'matcher', component: MatcherComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: ''}
 ];
 

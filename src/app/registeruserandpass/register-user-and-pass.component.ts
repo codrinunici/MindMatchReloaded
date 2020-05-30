@@ -71,6 +71,10 @@ export class RegisterUserAndPassComponent implements OnInit {
       this.userService.registerUserAndPass({username: this.newUsername, password: this.newPass}).pipe(first()).subscribe(
         data => {
           this.router.navigate(['/register-questions']);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
         }
       );
     }

@@ -34,7 +34,7 @@ export class RegisterQuestionsComponent {
   ];
   possibleAnswersPersQues = ['A', 'B', 'C', 'D'];
   public personalQuestionnaireGroup: FormGroup[] = Array(this.personalQuestions.length);
-  private oneAnswerPerQuestion= Array();
+  private oneAnswerPerQuestion = Array();
   public submitted = false;
   public loading = false;
   public error = false;
@@ -101,8 +101,9 @@ export class RegisterQuestionsComponent {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
+    this.finalResponse.map(singleAnswer => this.answers += singleAnswer);
     console.log(this.answers);
-    this.userService.registerAnswers({userid: 1, cnp: this.answers})
+    this.userService.registerAnswers({userid: 1, cnp: this.answers}) // user id will come from backend
       .pipe(first())
       .subscribe(
         data => {

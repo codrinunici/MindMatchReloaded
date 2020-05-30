@@ -24,8 +24,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return authenticate();
         case url.endsWith('/users/registerUandP') && method === 'POST':
           return registerUserAndPassword();
-        case url.endsWith('/users/registeranswers') && method === 'POST':
-          return registerAnswers();
+        // case url.endsWith('/users/registeranswers') && method === 'POST':
+        //   return registerAnswers();
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -47,11 +47,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         cnp: user.finalResponse
       });
     }
-    function registerAnswers(){
-      console.log(body);
-      return ok();
-    }
-    function registerUserAndPassword() {
+    // function registerAnswers(){
+    //   console.log(body);
+    //   return ok();
+    // }
+    function registerUserAndPassword() { // this method will not be necessary no more
       localStorage.clear();
       const user = body;
       console.log(user);

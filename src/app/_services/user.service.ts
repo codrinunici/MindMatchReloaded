@@ -22,7 +22,7 @@ export class UserService {
   }
 
   registerUserAndPass(user) {
-    return this.http.post('http://localhost:4200/users/registerUandP', user);
+    return this.http.post('http://localhost:4200/users/registerUandP', user); // change to new page of backend
   }
 
   registerAnswers(finalResponse) {

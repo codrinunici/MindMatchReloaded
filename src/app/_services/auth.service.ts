@@ -7,10 +7,11 @@ import {map} from 'rxjs/operators';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  private config: { apiUrl: 'http://localhost:4200' };
+  private config: { apiUrl: 'http://localhost:4200' }; // this will be backend link later
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+    // this will get logged in user from backend
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
