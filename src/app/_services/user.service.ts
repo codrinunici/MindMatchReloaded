@@ -1,11 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PassDataService} from './pass-data.service';
 import {Observable} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
-  constructor(private http: HttpClient) {
+  private httpOptions: any;
+  idToBeSent: string;
+
+  constructor(private http: HttpClient, private credentialSender: PassDataService) {
+    this.httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    this.credentialSender.currentId.subscribe(message => this.idToBeSent = message);
+
   }
 
 
@@ -22,15 +31,21 @@ export class UserService {
   }
 
   registerUserAndPass(user) {
-    return this.http.post('http://localhost:4200/users/registerUandP', user); // change to new page of backend
+    return this.http.post('http://localhost:8000/users/new/', user).pipe(first()).subscribe(
+      data => {
+        this.getNewId(data['id']);
+      }
+    ); // change to new page of backend
+  }
+
+  getNewId(id: number) {
+    this.idToBeSent = String(id);
+    this.credentialSender.changeId(this.idToBeSent);
   }
 
   registerAnswers(finalResponse) {
     return this.http.post('http://localhost:8000/cnp/new/', finalResponse);
   }
 
-  delete(id) {
-    return this.http.delete('http://localhost:4200/u/users/${id}');
-  }
 }
 

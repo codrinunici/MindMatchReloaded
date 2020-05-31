@@ -17,10 +17,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
+    localStorage.clear();
+
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
@@ -33,10 +34,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-    // show success message on registration
     if (this.route.snapshot.queryParams['registered']) {
       this.success = 'Registration successful';
     }
@@ -60,16 +59,16 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-        });
+    this.authenticationService.login({username: this.f.username.value, password: this.f.password.value, id : ''});
+      // .pipe(first())
+      // .subscribe(
+      //   data => {
+      //     this.router.navigate([this.returnUrl]);
+      //   },
+      //   error => {
+      //     this.error = error;
+      //     this.loading = false;
+      //   });
   }
 
 }

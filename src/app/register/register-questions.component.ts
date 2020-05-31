@@ -25,10 +25,12 @@ export class RegisterQuestionsComponent {
   private possibleAnswers = ['A', 'B', 'C'];
   private oneAnswerPerQuestion: string[] = [];
   public invalidForm = false;
+  private receivedId = '';
 
   constructor(private fb: FormBuilder, private router: Router,
-              private userService: UserService) {
+              private userService: UserService, private credentialSender: PassDataService) {
     this.userService.getQandA().then(res => this.setQnA(res));
+    this.credentialSender.currentId.subscribe(id => this.receivedId = id);
   }
 
   setQnA(res) {
@@ -36,6 +38,7 @@ export class RegisterQuestionsComponent {
   }
 
   buildForm() {
+
     let i: number;
     for (i = 0; i < this.questionnaire.length; ++i) {
       this.personalQuestionnaireGroup[i] = this.fb.group({
@@ -53,7 +56,6 @@ export class RegisterQuestionsComponent {
       }
     }
     this.structuredQuestions.push(answers['question']);
-    console.log(this.structuredQuestions);
     this.structuredAnswers.push(thisQuestionsAnswers);
     thisQuestionsAnswers.shift();
     const answerArr = thisQuestionsAnswers.map(answer => {
@@ -92,7 +94,7 @@ export class RegisterQuestionsComponent {
       this.invalidForm = true;
       return;
     }
-    this.userService.registerAnswers({userid: 1, cnp: this.answers}) // user id will come from backend
+    this.userService.registerAnswers({userid: this.receivedId, cnp: this.answers}) // user id will come from backend
       .pipe(first())
       .subscribe(
         data => {

@@ -52,7 +52,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     //   return ok();
     // }
     function registerUserAndPassword() { // this method will not be necessary no more
-      localStorage.clear();
       const user = body;
       console.log(user);
       if (users.find(x => x.username === user.username)) {
