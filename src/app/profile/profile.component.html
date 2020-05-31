@@ -1,1 +1,53 @@
-<p>profile works!</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<div class="row">
+	<div class="col-8">
+		<div class="card center">
+
+			<div *ngIf="editable">
+				<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+					<label for="username"></label>
+					<input id="username" type="text" formControlName="username" class="form-control mb-2">
+					<label for="randomFun" class="font">Random fun fact</label>
+					<input id="randomFun" type="text" formControlName="randomFun" class="form-control mb-2">
+					<label for="description" class="font">Description</label>
+					<input id="description" type="text" formControlName="description" class="form-control mb-2">
+					<label for="contact" class="font">Contact</label>
+					<input id="contact" type="text" formControlName="contact" class="form-control mb-2">
+					<div class="form-group">
+						<button class="btn btn-primary">
+							<span class="mr-1"></span>
+							Submit
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<div *ngIf="!editable">
+				<form [formGroup]="profileForm" (ngSubmit)="onEdit()">
+					<label for="username"></label>
+					<input id="username" type="text" formControlName="username" class="form-control mb-2" readonly>
+					<label for="randomFun" class="font">Random fun fact</label>
+					<input id="randomFun" type="text" formControlName="randomFun" class="form-control mb-2" readonly>
+					<label for="description" class="font">Description</label>
+					<input id="description" type="text" formControlName="description" class="form-control mb-2" readonly>
+					<label for="contact" class="font">Contact</label>
+					<input id="contact" type="text" formControlName="contact" class="form-control mb-2" readonly>
+					<div class="form-group">
+						<button class="btn btn-primary">
+							<span class="mr-1"></span>
+							edit
+						</button>
+					</div>
+				</form>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+
+
+
