@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark" >
   <div class="navbar-nav">
+    <a *ngIf="currentUser" class="nav-item nav-link" [routerLink]="['/profile', currentUser.username]">Profile</a>
     <a class="nav-item nav-link" routerLink="/">Home</a>
     <a class="nav-item nav-link" routerLink="/login">Login</a>
     <a class="nav-item nav-link" (click)= "logout()" routerLink="/"><p>Logout</p></a>

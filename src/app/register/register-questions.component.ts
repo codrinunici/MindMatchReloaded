@@ -24,7 +24,7 @@ export class RegisterQuestionsComponent {
   public questionnaire: any = [{}];
   private possibleAnswers = ['A', 'B', 'C'];
   private oneAnswerPerQuestion: string[] = [];
-  private invalidForm = false;
+  public invalidForm = false;
 
   constructor(private fb: FormBuilder, private router: Router,
               private userService: UserService) {
