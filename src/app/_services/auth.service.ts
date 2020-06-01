@@ -7,6 +7,7 @@ import {first, map} from 'rxjs/operators';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
+  private newUserId: number;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
@@ -18,11 +19,17 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(user) {
-    return this.http.post<any>('http://localhost:8000/users/login/', user)
-      .pipe(first()).subscribe(newUser => {
-        console.log(newUser);
-      });
+   login(user) {
+     return this.http.post<any>('http://localhost:8000/users/login/', user)
+      .toPromise().then(this.interceptLoginUser).catch(this.handleGetError);
+  }
+
+  interceptLoginUser(res: Response | any) {
+    return res;
+  }
+
+  handleGetError(error: Response | any) {
+    console.error(error.message || error);
   }
 
   logout() {

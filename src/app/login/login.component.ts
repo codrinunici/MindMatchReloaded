@@ -41,34 +41,30 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
-
-    // reset alerts on submit
     this.error = null;
     this.success = null;
-
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authenticationService.login({username: this.f.username.value, password: this.f.password.value, id : ''});
-      // .pipe(first())
-      // .subscribe(
-      //   data => {
-      //     this.router.navigate([this.returnUrl]);
-      //   },
-      //   error => {
-      //     this.error = error;
-      //     this.loading = false;
-      //   });
+    this.authenticationService.login({username: this.f.username.value, password: this.f.password.value, id: ''});
+    this.router.navigate(['/']);
+    // .pipe(first())
+    //   .subscribe(
+    //     data => {
+    //       this.router.navigate([this.returnUrl]);
+    //     },
+    //     error => {
+    //       this.error = error;
+    //       this.loading = false;
+    //     });
   }
 
 }

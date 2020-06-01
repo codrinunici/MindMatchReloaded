@@ -17,6 +17,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RegisterUserAndPassComponent } from './registeruserandpass/register-user-and-pass.component';
 import {PassDataService} from './_services/pass-data.service';
 import {UserService} from './_services/user.service';
+import {AuthenticationService} from './_services/auth.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {UserService} from './_services/user.service';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     fakeBackendProvider,
-    PassDataService
+    PassDataService,
+    AuthenticationService
   ]
   ,
   bootstrap: [AppComponent]
