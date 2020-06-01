@@ -34,9 +34,9 @@ export class ProfileComponent implements OnInit {
 
     this.profileForm = this.formBuilder.group({
       username: [this.currentUser.username, Validators.required],
-      randomFun: ['', Validators.required],
-      description: ['', Validators.required],
-      contact: ['', Validators.required]
+      randomFun: [''],
+      description: [''],
+      contact: ['']
     });
   }
 
@@ -44,15 +44,15 @@ export class ProfileComponent implements OnInit {
     this.usernameToBeSent = this.profileForm.value.username;
     this.randomFunToBeSent = this.profileForm.value.randomFun;
     this.descriptionToBeSent = this.profileForm.value.description;
-    this.contactToBeSent = this.profileForm.value.contact;
 
     this.editable = false;
     // TODO: send update with this values
-    console.log(this.usernameToBeSent + ' ' + this.randomFunToBeSent + ' ' + this.descriptionToBeSent + ' ' + this.contactToBeSent);
+    console.log(this.usernameToBeSent + ' ' + this.randomFunToBeSent + ' ' + this.descriptionToBeSent);
   }
 
 
   onEdit() {
+    console.log('edit');
     this.editable = true;
   }
 }

@@ -1,53 +1,58 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="sample-wrapper">
+	<section class="sample-content">
+		<article class="sample-column">
+			<form [formGroup]="profileForm" (ngSubmit)="editable? onSubmit() : onEdit()">
 
+				<igx-input-group type="username" class="mt-4">
+					<input readonly igxInput name="username" type="text" formControlName="username" />
+					<label igxLabel for="username">Full Name</label>
+					<igx-suffix>
+						<igx-icon>person</igx-icon>
+					</igx-suffix>
+				</igx-input-group>
 
-<div class="row">
-	<div class="col-8">
-		<div class="card center">
+				<igx-input-group *ngIf="editable" type="randomFun" class="mt-4">
+					<input igxInput name="randomFun" type="text" formControlName="randomFun" />
+					<label igxLabel for="randomFun">Random fun</label>
+					<igx-suffix>
+						<igx-icon>sentiment_very_satisfied</igx-icon>
+					</igx-suffix>
+				</igx-input-group>
 
-			<div *ngIf="editable">
-				<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-					<label for="username"></label>
-					<input id="username" type="text" formControlName="username" class="form-control mb-2">
-					<label for="randomFun" class="font">Random fun fact</label>
-					<input id="randomFun" type="text" formControlName="randomFun" class="form-control mb-2">
-					<label for="description" class="font">Description</label>
-					<input id="description" type="text" formControlName="description" class="form-control mb-2">
-					<label for="contact" class="font">Contact</label>
-					<input id="contact" type="text" formControlName="contact" class="form-control mb-2">
-					<div class="form-group">
-						<button class="btn btn-primary">
-							<span class="mr-1"></span>
-							Submit
-						</button>
-					</div>
-				</form>
-			</div>
+				<igx-input-group *ngIf="!editable" type="randomFun" class="mt-4">
+					<input igxInput readonly name="randomFun" type="text" formControlName="randomFun" />
+					<label igxLabel for="randomFun">Random fun</label>
+					<igx-suffix>
+						<igx-icon>sentiment_very_satisfied</igx-icon>
+					</igx-suffix>
+				</igx-input-group>
 
-			<div *ngIf="!editable">
-				<form [formGroup]="profileForm" (ngSubmit)="onEdit()">
-					<label for="username"></label>
-					<input id="username" type="text" formControlName="username" class="form-control mb-2" readonly>
-					<label for="randomFun" class="font">Random fun fact</label>
-					<input id="randomFun" type="text" formControlName="randomFun" class="form-control mb-2" readonly>
-					<label for="description" class="font">Description</label>
-					<input id="description" type="text" formControlName="description" class="form-control mb-2" readonly>
-					<label for="contact" class="font">Contact</label>
-					<input id="contact" type="text" formControlName="contact" class="form-control mb-2" readonly>
-					<div class="form-group">
-						<button class="btn btn-primary">
-							<span class="mr-1"></span>
-							edit
-						</button>
-					</div>
-				</form>
-			</div>
-			
-		</div>
-	</div>
+				<igx-input-group *ngIf="editable" type="description" class="mt-4">
+					<input igxInput name="description" type="text" formControlName="description" />
+					<label igxLabel for="description">Description</label>
+					<igx-suffix>
+						<igx-icon>school</igx-icon>
+					</igx-suffix>
+				</igx-input-group>
+
+				<igx-input-group *ngIf="!editable" type="description" class="mt-4">
+					<input readonly igxInput name="description" type="text" formControlName="description" />
+					<label igxLabel for="description">Description</label>
+					<igx-suffix>
+						<igx-icon>school</igx-icon>
+					</igx-suffix>
+				</igx-input-group>
+
+				<div class="form-group mt-4">
+					<button *ngIf="editable" igxButton="flat" igxRipple="#FBB13C" class="btn btn-primary" (ngSubmit)="onSubmit()">
+						Submit
+					</button>
+					<button *ngIf="!editable" igxButton="fab" igxRipple="#FBB13C" class="btn btn-primary" (ngSubmit)="onEdit()">
+						<igx-icon fontSet="material">edit</igx-icon>
+					</button>
+				</div>
+			</form>
+		</article>
+	</section>
 </div>
-
-
-
-
-

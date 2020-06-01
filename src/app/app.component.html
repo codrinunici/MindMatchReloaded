@@ -1,18 +1,24 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" >
-  <div class="navbar-nav">
-    <a *ngIf="currentUser" class="nav-item nav-link" [routerLink]="['/profile', currentUser.username]">Profile</a>
-    <a class="nav-item nav-link" routerLink="/">Home</a>
-    <a class="nav-item nav-link" routerLink="/login">Login</a>
-    <a class="nav-item nav-link" (click)= "logout()" routerLink="/"><p>Logout</p></a>
-  </div>
-</nav>
-<!-- main content container -->
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-8 offset-sm-2">
-        <router-outlet></router-outlet>
-      </div>
+<igx-navbar title="MindMatch" actionButtonIcon="menu" (onAction)="drawer.toggle()">
+</igx-navbar>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+<igx-nav-drawer #drawer [pinThreshold]="false" width="280px">
+  <div class="ig-drawer-content">
+    <ng-template igxDrawer>
+      <nav class="nav">
+        <a *ngIf="currentUser" class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" (click)="drawer.close();"
+          [routerLink]="['/profile', currentUser.username]">Profile</a>
+        <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" routerLink="/" (click)="drawer.close();">Home</a>
+        <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" routerLink="login" (click)="drawer.close();">Login</a>
+        <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" (click)="logout()" routerLink="/logout()">
+          Logout
+        </a>
+      </nav>
+    </ng-template>
+  </div>
+</igx-nav-drawer>
