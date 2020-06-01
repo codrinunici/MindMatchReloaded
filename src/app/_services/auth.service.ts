@@ -19,18 +19,15 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-   login(user) {
-     return this.http.post<any>('http://localhost:8000/users/login/', user)
-      .toPromise().then(this.interceptLoginUser).catch(this.handleGetError);
+  login(user) {
+    return this.http.post<any>('http://localhost:8000/users/login/', user).pipe(map(
+      newUser => {
+        this.currentUserSubject.next(newUser);
+        return newUser['id'];
+      }
+    ));
   }
 
-  interceptLoginUser(res: Response | any) {
-    return res;
-  }
-
-  handleGetError(error: Response | any) {
-    console.error(error.message || error);
-  }
 
   logout() {
     this.currentUserSubject.next(null);

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from '../_services/exporter';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthenticationService, UserService} from '../_services/exporter';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {PassDataService} from '../_services/pass-data.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,24 +12,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   currentUser;
-  usernameToBeSent: string;
   randomFunToBeSent: string;
   descriptionToBeSent: string;
-  contactToBeSent: string;
   editable = false;
+  receivedId = '';
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private credentialSender: PassDataService,
+    private userService: UserService
   ) {
     if (!this.authenticationService.currentUserValue) {
       this.router.navigate(['/login']);
     }
+    this.credentialSender.currentId.subscribe(id => this.receivedId = id);
   }
 
   ngOnInit() {
-    // TODO: change current user with user from url. Request user from backend 
+    // TODO: change current user with user from url. Request user from backend
     this.authenticationService.currentUser
       .subscribe(u => this.currentUser = u);
 
@@ -41,14 +44,14 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    this.usernameToBeSent = this.profileForm.value.username;
     this.randomFunToBeSent = this.profileForm.value.randomFun;
     this.descriptionToBeSent = this.profileForm.value.description;
-    this.contactToBeSent = this.profileForm.value.contact;
-
     this.editable = false;
-    // TODO: send update with this values
-    console.log(this.usernameToBeSent + ' ' + this.randomFunToBeSent + ' ' + this.descriptionToBeSent + ' ' + this.contactToBeSent);
+    this.userService.registerProfileEdits({
+      userid: this.receivedId,
+      description: this.descriptionToBeSent,
+      random_fun: this.randomFunToBeSent
+    });
   }
 
 

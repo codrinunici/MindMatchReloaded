@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
 import {AuthenticationService} from '../_services/exporter';
+import {PassDataService} from '../_services/pass-data.service';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -13,12 +14,14 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error: string;
   success: string;
+  idToBeSent = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private credentialSender: PassDataService
   ) {
     localStorage.clear();
 
@@ -26,6 +29,7 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
+    this.credentialSender.currentId.subscribe(id => this.idToBeSent = id);
   }
 
   ngOnInit() {
@@ -54,8 +58,17 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login({username: this.f.username.value, password: this.f.password.value, id: ''});
-    this.router.navigate(['/']);
+    this.authenticationService.login({username: this.f.username.value, password: this.f.password.value, id: ''}).pipe(first()).subscribe(
+      data => {
+        this.idToBeSent = String(data);
+        this.credentialSender.changeId(this.idToBeSent);
+        return this.router.navigate(['/']);
+      },
+      error => {
+        this.error = error;
+        this.loading = false;
+      }
+    );
     // .pipe(first())
     //   .subscribe(
     //     data => {

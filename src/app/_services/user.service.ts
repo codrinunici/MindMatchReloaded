@@ -46,5 +46,11 @@ export class UserService {
     return this.http.post('http://localhost:8000/cnp/new/', finalResponse);
   }
 
+  registerProfileEdits(newEdits) {
+    return this.http.post('http://localhost:8000/profile/new/', newEdits);
+
+  }
+
+
 }
 

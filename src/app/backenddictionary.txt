@@ -1,4 +1,4 @@
-Profile: {"userid": 1, "description": "Tall and blonde", "random_fun": "Chocobomb"}
+Profile: {"userid": 1, "description": "Tall and blonde", "random_fun": "Chocobomb"},
 CNP: "{"userid": 1, "cnp": "22123"}"
 Question: {"question": "Favorite Pet?", "asnwer_a": "Dog", "asnwer_b": "Cat", "asnwer_c": "Snake"}
 Match: {"userid": 2, "description": "Hope and work", "random_fun": "Bala-bum"}
