@@ -9,7 +9,6 @@ import { AuthenticationService } from './_services/exporter';
 })
 export class AppComponent {
   currentUser: any;
-
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService

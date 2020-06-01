@@ -37,9 +37,9 @@ export class ProfileComponent implements OnInit {
 
     this.profileForm = this.formBuilder.group({
       username: [this.currentUser.username, Validators.required],
-      randomFun: ['', Validators.required],
-      description: ['', Validators.required],
-      contact: ['', Validators.required]
+      randomFun: [''],
+      description: [''],
+      contact: ['']
     });
   }
 
@@ -56,6 +56,7 @@ export class ProfileComponent implements OnInit {
 
 
   onEdit() {
+    console.log('edit');
     this.editable = true;
   }
 }
