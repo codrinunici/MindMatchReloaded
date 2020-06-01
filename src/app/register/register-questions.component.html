@@ -1,33 +1,31 @@
-<h1>Hello, stranger!</h1>
+<h3>Hello, stranger!</h3>
+<h5>Before you move on to finding your MindMatch, we need to get acquainted</h5>
+
 <br>
 
-<h3>Before you move on to finding your MindMatch, we need to get acquainted</h3>
 <div *ngIf="!showTheQuestionnaire">
-  <button
-    (click)="showTheQuestionnaire=!showTheQuestionnaire; buildForm()"
+  <button igxButton="flat" igxRipple="#FBB13C" (click)="showTheQuestionnaire=!showTheQuestionnaire; buildForm()"
     class="btn btn-dark">Let's get this show on the road!
   </button>
 </div>
+
 <div *ngIf="invalidForm" class="alert alert-danger">All questions need an answer!</div>
+
 <div *ngIf="showTheQuestionnaire">
-  <div  *ngFor="let nextGroup of personalQuestionnaireGroup; let i = index;">
-    <form *ngIf="nextGroup" [formGroup]="nextGroup" >
-      {{nextGroup.get('question').value}}
-      <div formArrayName="answers"
-           *ngFor="let answer of getAnswersArrayAtIndex(i).controls;let j = index;">
-
-        <mat-checkbox [formControl]="answer"
-                      [checked]="answer.value"
-                      labelPosition="before"
-                      id="answer{{i}}{{j}}"
-                      aria-labelledby="answer{{j}}"
-                      (change)="getSelectedAnswers(i)"
-                      >
-          {{structuredAnswers[i][j]}}
-        </mat-checkbox>
-      </div>
-
-    </form>
+  <div *ngFor="let nextGroup of personalQuestionnaireGroup; let i = index;">
+    <igx-card class="mt-2">
+      <form *ngIf="nextGroup" [formGroup]="nextGroup">
+        <h6 class="h6 mb-2 text-primary">
+          {{nextGroup.get('question').value}}
+        </h6>
+        <div formArrayName="answers" *ngFor="let answer of getAnswersArrayAtIndex(i).controls;let j = index;">
+          <mat-checkbox [formControl]="answer" [checked]="answer.value" labelPosition="after" id="answer{{i}}{{j}}"
+            aria-labelledby="answer{{j}}" (change)="getSelectedAnswers(i)">
+            {{structuredAnswers[i][j]}}
+          </mat-checkbox>
+        </div>
+      </form>
+    </igx-card>
   </div>
-  <button (click) = "onSubmit()" class="btn btn-primary">Submit</button>
+  <button igxButton="flat" igxRipple="#FBB13C" (click)="onSubmit()" class="btn btn-primary mt-2">Submit</button>
 </div>
