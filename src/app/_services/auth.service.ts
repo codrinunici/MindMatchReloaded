@@ -22,7 +22,6 @@ export class AuthenticationService {
   login(user) {
     return this.http.post<any>('http://localhost:8000/users/login/', user).pipe(map(
       newUser => {
-        console.log(newUser);
         this.currentUserSubject.next(newUser);
         return newUser['id'];
       }

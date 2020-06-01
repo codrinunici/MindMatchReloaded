@@ -40,13 +40,16 @@ export class UserService {
 
   registerAnswers(finalResponse) {
     console.log(finalResponse.userid);
-    this.http.post('http://localhost:8000/profile/new/', {userid: finalResponse.userid, description: 'dummy', random_fun: 'text'});
     return this.http.post('http://localhost:8000/cnp/new/', finalResponse);
   }
 
   registerProfileEdits(newEdits) {
     console.log('http://localhost:8000/profile/' + newEdits.userid + '/');
-    this.http.put('http://localhost:8000/profile/' + newEdits.userid + '/', newEdits);
+    return this.http.put('http://localhost:8000/profile/' + newEdits.userid + '/', newEdits).pipe(first()).subscribe(
+      data => {
+        console.log(data);
+      }
+    );
   }
 
   handleGetError(error: Response | any) {
