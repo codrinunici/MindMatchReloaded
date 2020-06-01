@@ -19,14 +19,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err.status === 403) {
           return throwError('Wrong username or password');
         }
-        // if (err.status === 404) {
-        //   if (err.url.search('profile//[0-9]*')) {
-        //     this.userService.createNewProfileData();
-        //   } else {
-        //     this.userService.updateProfileData();
-        //   }
-        //   return throwError('da');
-        // }
 
         const error = err.error || err.statusText;
         return throwError(error);
