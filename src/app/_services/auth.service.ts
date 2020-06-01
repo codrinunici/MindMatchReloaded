@@ -7,15 +7,16 @@ import {first, map} from 'rxjs/operators';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  private newUserId: number;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    // this will get logged in user from backend
+    this.currentUserSubject = new BehaviorSubject<any>({username: '', password: '', id: ''});
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue() {
+    if (JSON.stringify(this.currentUserSubject.value) === JSON.stringify({username: '', password: '', id: ''})) {
+      this.currentUserSubject.next(null);
+    }
     return this.currentUserSubject.value;
   }
 

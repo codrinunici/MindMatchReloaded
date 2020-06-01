@@ -16,7 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authenticationService.logout();
           location.reload(true);
         }
-        if (err.status === 403) {
+        if (err.status === 403 && err.url.search('users/login/')) {
           return throwError('Wrong username or password');
         }
 

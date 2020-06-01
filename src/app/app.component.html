@@ -14,7 +14,7 @@
         <a *ngIf="currentUser" class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" (click)="drawer.close();"
           [routerLink]="['/profile', currentUser.username]">Profile</a>
         <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" routerLink="/" (click)="drawer.close();">Home</a>
-        <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" routerLink="login" (click)="drawer.close();">Login</a>
+        <a *ngIf="!currentUser" class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" routerLink="login" (click)="drawer.close();">Login</a>
         <a class="nav-item nav-link" igxDrawerItem igxRipple [routerLinkActive]="'active'" (click)="logout()" routerLink="/logout()">
           Logout
         </a>

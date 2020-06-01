@@ -5,6 +5,7 @@ import {first} from 'rxjs/operators';
 
 import {AuthenticationService} from '../_services/exporter';
 import {PassDataService} from '../_services/pass-data.service';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
   success: string;
   idToBeSent = '';
 
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -23,8 +25,6 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private credentialSender: PassDataService
   ) {
-    localStorage.clear();
-
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
@@ -69,15 +69,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
-    // .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.router.navigate([this.returnUrl]);
-    //     },
-    //     error => {
-    //       this.error = error;
-    //       this.loading = false;
-    //     });
+
   }
 
 }

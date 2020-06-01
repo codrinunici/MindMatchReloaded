@@ -39,12 +39,10 @@ export class UserService {
   }
 
   registerAnswers(finalResponse) {
-    console.log(finalResponse.userid);
     return this.http.post('http://localhost:8000/cnp/new/', finalResponse);
   }
 
   registerProfileEdits(newEdits) {
-    console.log('http://localhost:8000/profile/' + newEdits.userid + '/');
     return this.http.put('http://localhost:8000/profile/' + newEdits.userid + '/', newEdits).pipe(first()).subscribe(
       data => {
         console.log(data);
