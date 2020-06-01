@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('sending');
     this.randomFunToBeSent = this.profileForm.value.randomFun;
     this.descriptionToBeSent = this.profileForm.value.description;
     this.editable = false;
@@ -52,11 +53,11 @@ export class ProfileComponent implements OnInit {
       description: this.descriptionToBeSent,
       random_fun: this.randomFunToBeSent
     });
+
   }
 
 
   onEdit() {
-    console.log('edit');
     this.editable = true;
   }
 }
