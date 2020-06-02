@@ -14,9 +14,6 @@ export class AuthenticationService {
   }
 
   public get currentUserValue() {
-    if (JSON.stringify(this.currentUserSubject.value) === JSON.stringify({username: '', password: '', id: ''})) {
-      this.currentUserSubject.next(null);
-    }
     return this.currentUserSubject.value;
   }
 
