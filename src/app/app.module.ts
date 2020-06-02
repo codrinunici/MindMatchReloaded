@@ -16,7 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RegisterUserAndPassComponent } from './registeruserandpass/register-user-and-pass.component';
 import { PassDataService } from './_services/pass-data.service';
-import { IgxNavbarModule, IgxNavigationDrawerModule, IgxInputGroupModule, IgxIconModule, IgxRippleModule, IgxButtonModule } from 'igniteui-angular';
+// tslint:disable-next-line: max-line-length
+import { IgxNavbarModule, IgxNavigationDrawerModule, IgxInputGroupModule, IgxIconModule, IgxRippleModule, IgxButtonModule, IgxCardModule, IgxTooltipModule, IgxCheckboxComponent, IgxCheckboxModule } from 'igniteui-angular';
 import {AuthenticationService} from './_services/auth.service';
 
 @NgModule({
@@ -42,6 +43,9 @@ import {AuthenticationService} from './_services/auth.service';
     IgxIconModule,
     IgxRippleModule,
     IgxButtonModule,
+    IgxCardModule,
+    IgxTooltipModule,
+    IgxCheckboxModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

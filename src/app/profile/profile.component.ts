@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(u => this.currentUser = u);
 
     this.profileForm = this.formBuilder.group({
-      username: [this.currentUser.username, Validators.required],
+      username: [this.currentUser.username],
       randomFun: [''],
       description: [''],
       contact: ['']
