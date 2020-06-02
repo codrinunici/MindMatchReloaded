@@ -51,6 +51,9 @@
 					<button *ngIf="!editable" igxButton="fab" igxRipple="#FBB13C" class="btn-primary" (ngSubmit)="onEdit()">
 						<igx-icon fontSet="material">edit</igx-icon>
 					</button>
+          <button [disabled]="this.profileForm.value['randomFun'] && this.profileForm.value['description']" igxButton="fab" igxRipple="#FBB13C" class="btn-primary" >
+              Start matching!
+          </button>
 				</div>
 			</form>
 		</article>

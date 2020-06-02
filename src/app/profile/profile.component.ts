@@ -39,7 +39,6 @@ export class ProfileComponent implements OnInit {
       username: [this.currentUser.username],
       randomFun: [''],
       description: [''],
-      contact: ['']
     });
   }
 
