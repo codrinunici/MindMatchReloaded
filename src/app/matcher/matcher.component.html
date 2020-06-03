@@ -1,1 +1,22 @@
-<p>matcher works!</p>
+<p>You are one step away from your new matches! We have some recommandations based on your answers</p>
+
+<div *ngFor="let match of userMatches">
+	<igx-card class="mt-2">
+		<igx-card-header class="text-primary text-uppercase">
+			<div [routerLink]="['/profile', match.userid]">
+				<button (click)="onClick(match.userid)" igxButton="fab" igxRipple="#FBB13C" class="btn-primary mr-2">
+					<igx-icon class="sm" fontSet="material">favorite</igx-icon>
+				</button>
+				{{match.username}}
+			</div>
+		</igx-card-header>
+		<igx-card-content>
+			<igx-list>
+				<ng-template igxEmptyList>
+					<p *ngIf="match.random_fun">Random fun thing: {{match.random_fun}}</p>
+					<p *ngIf="match.description">Description: {{match.description}}</p>
+				</ng-template>
+			</igx-list>
+		</igx-card-content>
+	</igx-card>
+</div>

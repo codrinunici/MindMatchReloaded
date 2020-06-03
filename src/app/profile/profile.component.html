@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="sample-wrapper">
+<div class="sample-wrapper" (onload)="ngOnInit()">
 	<section class="sample-content">
 		<article class="sample-column">
 			<form [formGroup]="profileForm" (ngSubmit)="editable? onSubmit() : onEdit()">
@@ -21,7 +21,7 @@
 				</igx-input-group>
 
 				<igx-input-group *ngIf="!editable" type="randomFun" class="mt-4">
-					<input igxInput readonly name="randomFun" type="text" formControlName="randomFun" />
+					<input igxInput readonly id="randomFun" name="randomFun" type="text" formControlName="randomFun" />
 					<label igxLabel for="randomFun">Random fun</label>
 					<igx-suffix>
 						<igx-icon>sentiment_very_satisfied</igx-icon>
@@ -36,24 +36,26 @@
 					</igx-suffix>
 				</igx-input-group>
 
-				<igx-input-group *ngIf="!editable" type="description" class="mt-4">
-					<input readonly igxInput name="description" type="text" formControlName="description" />
-					<label igxLabel for="description">Description</label>
+				<igx-input-group *ngIf="!editable" class="mt-4">
+					<input readonly igxInput id="description" name="description" type="text" formControlName="description" />
+					<label igxLabel id="description" for="description">Description</label>
 					<igx-suffix>
 						<igx-icon>school</igx-icon>
 					</igx-suffix>
 				</igx-input-group>
 
 				<div class="form-group mt-4">
-					<button *ngIf="editable" igxButton="flat" igxRipple="#FBB13C" class="btn btn-primary" (ngSubmit)="onSubmit()">
+					<button *ngIf="editable" igxButton="flat" igxRipple="#FBB13C" class="btn btn-primary"
+						(ngSubmit)="onSubmit()">
 						Submit
 					</button>
-					<button *ngIf="!editable" igxButton="fab" igxRipple="#FBB13C" class="btn-primary" (ngSubmit)="onEdit()">
+					<button *ngIf="!editable" igxButton="fab" igxRipple="#FBB13C" class="btn-primary"
+						(ngSubmit)="onEdit()">
 						<igx-icon fontSet="material">edit</igx-icon>
 					</button>
-          <button [disabled]="this.profileForm.value['randomFun'] && this.profileForm.value['description']" igxButton="fab" igxRipple="#FBB13C" class="btn-primary float-right" >
-              Start matching!
-          </button>
+					<button igxButton="fab" igxRipple="#FBB13C" class="btn-primary float-right" routerLink="/matcher">
+						Start matching!
+					</button>
 				</div>
 			</form>
 		</article>

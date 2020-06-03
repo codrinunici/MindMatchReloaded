@@ -8,12 +8,12 @@ import {MatcherComponent} from './matcher/matcher.component';
 import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterUserAndPassComponent},
-  {path: 'register-questions', component: RegisterQuestionsComponent},
-  {path: 'profile/:username', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'matcher', component: MatcherComponent, canActivate: [AuthGuard]},
-  {path: '**', redirectTo: ''}
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterUserAndPassComponent },
+  { path: 'register-questions', component: RegisterQuestionsComponent },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'matcher', component: MatcherComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '' }
 ];
 
