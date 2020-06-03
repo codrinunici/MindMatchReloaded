@@ -9,7 +9,7 @@ export class AuthenticationService {
   public currentUser: Observable<any>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>({username: '', password: '', id: ''});
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -20,6 +20,7 @@ export class AuthenticationService {
   login(user) {
     return this.http.post<any>('http://localhost:8000/users/login/', user).pipe(map(
       newUser => {
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
         this.currentUserSubject.next(newUser);
         return newUser['id'];
       }
@@ -28,6 +29,7 @@ export class AuthenticationService {
 
 
   logout() {
+    localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
 }

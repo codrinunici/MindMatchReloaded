@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.ID = this.activatedRoute.snapshot.paramMap.get('id');
-    if (this.ID != '0') {
+    if (this.ID !== '0') {
       this.receivedId = this.ID;
     } else {
       this.credentialSender.currentId.subscribe(id => this.receivedId = id);

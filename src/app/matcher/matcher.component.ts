@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService, AuthenticationService } from '../_services/exporter';
-import { PassDataService } from '../_services/pass-data.service';
+import {Component, OnInit} from '@angular/core';
+import {UserService, AuthenticationService} from '../_services/exporter';
+import {PassDataService} from '../_services/pass-data.service';
 
 @Component({
   selector: 'app-matcher',
@@ -10,10 +10,12 @@ import { PassDataService } from '../_services/pass-data.service';
 export class MatcherComponent implements OnInit {
   userMatches = [];
   id;
+
   constructor(
     private userService: UserService,
     private authService: AuthenticationService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.id = this.authService.currentUserValue['id'];
@@ -27,12 +29,15 @@ export class MatcherComponent implements OnInit {
   }
 
   onClick(userid) {
+
     if (this.id > userid) {
-      console.log('link' + userid + this.id);
+      var room = userid + this.id;
     } else {
-      console.log('link' + this.id + userid);
+      var room = this.id + userid;
     }
-    window.open("http://localhost:8000/users");
+
+    window.open('http://localhost:8001/chat/' + room + '/');
+
 
   }
 
