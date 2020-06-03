@@ -94,6 +94,7 @@ export class RegisterQuestionsComponent {
       this.invalidForm = true;
       return;
     }
+    console.log(this.receivedId,this.answers);
     this.userService.registerAnswers({userid: this.receivedId, cnp: this.answers}) // user id will come from backend
       .pipe(first())
       .subscribe(

@@ -45,9 +45,10 @@ export class ProfileComponent implements OnInit {
     if (this.ID !== '0') {
       this.receivedId = this.ID;
     } else {
-      this.credentialSender.currentId.subscribe(id => this.receivedId = id);
+      this.receivedId = this.authenticationService.currentUserValue['id'];
     }
-
+    this.authenticationService.currentUser
+      .subscribe(u => this.currentUser = u);
   }
 
   async ngOnInit() {
@@ -63,8 +64,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateForm() {
-    this.authenticationService.currentUser
-      .subscribe(u => this.currentUser = u);
+
     this.profileForm = this.formBuilder.group({
       username: this.user['username'],
       randomFun: this.user['random_fun'],

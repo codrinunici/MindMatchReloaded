@@ -51,11 +51,11 @@ export class UserService {
   }
 
   getMatchUsers(id) {
-    return this.http.get('http://localhost:8000/match/' + id + '/')
+    return this.http.get('http://localhost:8000/match/' + id + '/');
   }
 
   getUserInfo(id) {
-    return this.http.get('http://localhost:8000/profile/' + id + '/')
+    return this.http.get('http://localhost:8000/profile/' + id + '/');
   }
 
   handleGetError(error: Response | any) {

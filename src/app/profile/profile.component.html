@@ -49,11 +49,11 @@
 						(ngSubmit)="onSubmit()">
 						Submit
 					</button>
-					<button *ngIf="!editable" igxButton="fab" igxRipple="#FBB13C" class="btn-primary"
+					<button *ngIf="!editable && this.currentUser['id'] == this.receivedId" igxButton="fab" igxRipple="#FBB13C" class="btn-primary"
 						(ngSubmit)="onEdit()">
 						<igx-icon fontSet="material">edit</igx-icon>
 					</button>
-					<button igxButton="fab" igxRipple="#FBB13C" class="btn-primary float-right" routerLink="/matcher">
+					<button *ngIf="this.currentUser['id'] == this.receivedId" igxButton="fab" igxRipple="#FBB13C" class="btn-primary float-right" routerLink="/matcher">
 						Start matching!
 					</button>
 				</div>

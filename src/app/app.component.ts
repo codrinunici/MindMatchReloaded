@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { AuthenticationService } from './_services/exporter';
-import { UserService } from './_services/user.service';
-import { PassDataService } from './_services/pass-data.service';
+import {AuthenticationService} from './_services/exporter';
+import {UserService} from './_services/user.service';
+import {PassDataService} from './_services/pass-data.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,7 @@ import { PassDataService } from './_services/pass-data.service';
 })
 export class AppComponent {
   currentUser: any;
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
@@ -19,6 +20,10 @@ export class AppComponent {
     private userService: UserService
   ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  reload() {
+    window.open('profile/' + this.currentUser['id'], '_self');
   }
 
   logout() {
